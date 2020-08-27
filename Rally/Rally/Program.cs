@@ -1,5 +1,6 @@
 ﻿using Rally.RestApi;
 using Rally.RestApi.Response;
+using Rally.TestCaseStructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,12 @@ namespace Rally
             restApi.Authenticate(username, password, host, proxy: null, allowSSO: false);
 
             Request request = new Request("TestCase");
-            request.Fetch = new List<string>() { "Name", "Description", "Notes", "FormattedID" };
-            request.Query = new Query("ObjectID", Query.Operator.Equals, "77391251364");
+            request.Fetch = new List<string>() { "ObjectID", "FormattedID", "Name", "Description", "Notes", "Results", "Discussion", "Steps", "RevisionHistory", "Connections" };
+            request.Query = new Query("ObjectID", Query.Operator.Equals, "92342102772");
             QueryResult queryResult = restApi.Query(request);
             Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            foreach (var result in queryResult.Results)
-            {
-                Console.WriteLine(result["Name"]);
-            }
+
+            TestCase tc = new TestCase(queryResult.Results.First());
         }
     }
 }
