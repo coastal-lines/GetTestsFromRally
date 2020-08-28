@@ -13,6 +13,7 @@ namespace Rally.TestCaseStructure
         public string TestCaseNumber { get; set; }
         public string TestCaseName { get; set; }
         public List<Step> Steps { get; private set; }
+        public TestCaseDetailsTab Details { get; private set; }
 
         private dynamic rallyResult;
         private RallyRestApi api;
@@ -26,10 +27,16 @@ namespace Rally.TestCaseStructure
             TestCaseNumber = rallyResult["FormattedID"].ToString();
             TestCaseName = rallyResult["Name"].ToString();
 
-            InitiliazeStepsFromTestCase();
+            InitializeSteps();
+            InitializeDetails();
         }
 
-        public void InitiliazeStepsFromTestCase()
+        public void InitializeDetails()
+        {
+            Details = new TestCaseDetailsTab(rallyResult);
+        }
+
+        public void InitializeSteps()
         {
             var resultSteps = rallyResult["Steps"];
             var stepsRef = resultSteps["_ref"];

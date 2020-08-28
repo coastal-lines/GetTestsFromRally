@@ -21,7 +21,7 @@ namespace Rally.CommonMethods
         public void GetOneTestCase()
         {
             Request request = new Request("TestCase");
-            request.Fetch = new List<string>() { "ObjectID", "FormattedID", "Name", "Description", "Notes", "Results", "Discussion", "Steps", "RevisionHistory", "Connections" };
+            request.Fetch = new List<string>() {};
             request.Query = new Query("ObjectID", Query.Operator.Equals, "92342102772");
             QueryResult queryResult = api.Query(request);
             Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");

@@ -47,5 +47,12 @@ namespace Rally.TestCaseStructure
         public string Run2Duration { get; set; }
 
         #endregion
+
+        public TestCaseDetailsTab(dynamic rallyResult)
+        {
+            Description = rallyResult["Description"];
+            Notes = rallyResult["Notes"];
+
+        }
     }
 }
