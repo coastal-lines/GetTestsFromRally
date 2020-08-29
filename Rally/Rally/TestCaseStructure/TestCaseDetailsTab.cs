@@ -73,7 +73,7 @@ namespace Rally.TestCaseStructure
             TestFolderName = ExtractDataFromResultObject("TestFolder");
             Expedite = rallyResult["Expedite"];
             WorkProductName = ExtractDataFromResultObject("WorkProduct");
-            Tags = GetTags(rallyResult);
+            Tags = InitializeTags(rallyResult);
             Risk = rallyResult["Risk"];
             Type = rallyResult["Type"];
             Method = rallyResult["Method"];
@@ -108,7 +108,7 @@ namespace Rally.TestCaseStructure
             return false;
         }
 
-        public List<string> GetTags(dynamic rallyResult)
+        public List<string> InitializeTags(dynamic rallyResult)
         {
             List<string> tagsList = new List<string>();
 

@@ -1,9 +1,5 @@
 ﻿using Rally.RestApi;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rally.TestCaseStructure
 {
@@ -12,8 +8,10 @@ namespace Rally.TestCaseStructure
         public string ObjectID { get; set; }
         public string TestCaseNumber { get; set; }
         public string TestCaseName { get; set; }
-        public List<Step> Steps { get; private set; }
+        public List<TestCaseStep> Steps { get; private set; }
         public TestCaseDetailsTab Details { get; private set; }
+        public TestCaseDefectsTab Defects { get; private set; }
+        public TestCaseResultsTab Results { get; private set; }
 
         private dynamic rallyResult;
         private RallyRestApi api;
@@ -27,13 +25,10 @@ namespace Rally.TestCaseStructure
             TestCaseNumber = rallyResult["FormattedID"].ToString();
             TestCaseName = rallyResult["Name"].ToString();
 
-            InitializeSteps();
-            InitializeDetails();
-        }
-
-        public void InitializeDetails()
-        {
             Details = new TestCaseDetailsTab(rallyResult);
+            Defects = new TestCaseDefectsTab(rallyResult);
+            Results = new TestCaseResultsTab(rallyResult);
+            InitializeSteps();
         }
 
         public void InitializeSteps()
@@ -44,11 +39,11 @@ namespace Rally.TestCaseStructure
 
             if (stepsFromRally.TotalResultCount > 0)
             {
-                Steps = new List<Step>();
+                Steps = new List<TestCaseStep>();
 
                 foreach (var step in stepsFromRally.Results)
                 {
-                    Steps.Add(new Step()
+                    Steps.Add(new TestCaseStep()
                     {
                         StepNumber = step["StepIndex"],
                         ExpectedText = step["ExpectedResult"],
