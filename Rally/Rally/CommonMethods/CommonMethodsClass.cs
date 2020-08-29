@@ -22,7 +22,7 @@ namespace Rally.CommonMethods
         {
             Request request = new Request("TestCase");
             request.Fetch = new List<string>() {};
-            request.Query = new Query("ObjectID", Query.Operator.Equals, "92342102772");
+            request.Query = new Query("ObjectID", Query.Operator.Equals, "400956582560");
             QueryResult queryResult = api.Query(request);
             Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
