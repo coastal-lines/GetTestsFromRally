@@ -1,4 +1,5 @@
-﻿using Rally.RestApi.Json;
+﻿using Microsoft.CSharp.RuntimeBinder;
+using Rally.RestApi.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Web.Helpers;
 
 namespace Rally.TestCaseStructure
 {
+    [Serializable]
     public class TestCaseDetailsTab
     {
         #region Left side
@@ -30,7 +32,7 @@ namespace Rally.TestCaseStructure
         public string Project { get; set; }
         public string TestFolderName { get; set; }
         public bool Expedite { get; set; }
-        public string WorkProductName { get; set; }
+        public string? WorkProductName { get; set; }
         public List<string> Tags { get; set; }
         public string Risk { get; set; }
         public string Type { get; set; }
@@ -92,8 +94,19 @@ namespace Rally.TestCaseStructure
 
         public string ExtractDataFromResultObject(string where)
         {
-            var obj = this.rallyResult[where];
-            return obj["_refObjectName"];
+            string data = string.Empty;
+
+            try
+            {
+                var resutObj = this.rallyResult[where];
+                data = resutObj["_refObjectName"];
+            }
+            catch (RuntimeBinderException err)
+            {
+                Console.WriteLine(err.Message);
+            }
+
+            return data;
         }
 
         public bool AreAttachmentsInTestCase()
