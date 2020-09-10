@@ -1,4 +1,5 @@
-﻿using Rally.RallyRest;
+﻿using Newtonsoft.Json;
+using Rally.RallyRest;
 using Rally.RestApi;
 using Rally.RestApi.Response;
 using Rally.TestCaseStructure;
@@ -7,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Rally.CommonMethods
 {
@@ -22,15 +24,22 @@ namespace Rally.CommonMethods
             api = apiClass.GetApiService();
         }
 
-        public void SaveRaw()
+        public void SaveTestCasesIntoJson()
         {
-            string[][] arr = new string[0][1];
+            StringBuilder sb = new StringBuilder();
+            string delimeter = ",";
 
-
-            using (Stream stream = File.Open(@"C:\Repos\MyGit\GetTestsFromRally\Rally\Files\data.data", false ? FileMode.Append : FileMode.Create))
+            foreach (var tc in tcList)
             {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, tcList);
+                if (tc.Steps != null && tc.Steps.Count > 0)
+                {
+                    sb.AppendLine(JsonConvert.SerializeObject(tc, Formatting.Indented) + delimeter);
+                }
+            }
+
+            using (StreamWriter file = new System.IO.StreamWriter(@"C:\Repos\MyGit\GetTestsFromRally\Rally\Files\data.txt"))
+            {
+                file.WriteLine(sb.ToString());
             }
         }
 
@@ -114,9 +123,6 @@ namespace Rally.CommonMethods
 
             TestCase tc = new TestCase(queryResult.Results.First(), api);
             tcList.Add(tc);
-            testcasesIds.Add(tc.ObjectID);
-
-            Console.WriteLine("tc: " + tc.ObjectID);
         }
     }
 }

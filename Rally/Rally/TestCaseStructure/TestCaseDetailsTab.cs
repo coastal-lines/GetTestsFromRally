@@ -10,7 +10,6 @@ using System.Web.Helpers;
 
 namespace Rally.TestCaseStructure
 {
-    [Serializable]
     public class TestCaseDetailsTab
     {
         #region Left side

@@ -2,7 +2,6 @@
 
 namespace Rally.TestCaseStructure
 {
-    [Serializable]
     public class TestCaseResultsTab
     {
         public int CountResultsOfTestCase { get; private set; }
