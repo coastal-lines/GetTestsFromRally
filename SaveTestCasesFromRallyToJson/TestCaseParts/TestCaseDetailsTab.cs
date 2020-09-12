@@ -26,7 +26,7 @@ namespace SaveTestCasesFromRallyToJson.TestCaseParts
         public string Project { get; set; }
         public string TestFolderName { get; set; }
         public bool Expedite { get; set; }
-        public string? WorkProductName { get; set; }
+        public System.String WorkProductName { get; set; }
         public List<string> Tags { get; set; }
         public string Risk { get; set; }
         public string Type { get; set; }
