@@ -2,7 +2,8 @@
 using Rally.RestApi;
 using Rally.RestApi.Response;
 using SaveTestCasesFromRallyToJson.Api;
-using SaveTestCasesFromRallyToJson.TestCaseParts;
+using SaveTestCasesFromRallyToJson.ExcelClasses;
+using SaveTestCasesFromRallyToJson.TestCaseClasses;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,10 +19,29 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
         private List<string> testcasesIds = new List<string>();
         private List<TestCase> tcList = new List<TestCase>();
 
-        public void SetupApi(string username, string password, string host)
+        private string username;
+        private string password;
+        private string host;
+
+        public CommonMethodsClass(string username, string password, string host)
+        {
+            this.username = username;
+            this.password = password;
+            this.host = host;
+        }
+
+        public void SetupApi()
         {
             ApiClass apiClass = new ApiClass(username, password, host);
             api = apiClass.GetApiService();
+        }
+
+        public void SaveTestCasesIntoExcelFile()
+        {
+            ExcelCommonClass excelClass = new ExcelCommonClass();
+            excelClass.MakeTemplateTable();
+            excelClass.FillCells(tcList);
+            excelClass.SaveExcelFile();
         }
 
         public void SaveTestCasesIntoJson()

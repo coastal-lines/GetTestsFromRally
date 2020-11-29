@@ -7,14 +7,15 @@ namespace SaveTestCasesFromRallyToJson
     {
         static void Main(string[] args)
         {
-            CommonMethodsClass commonMethods = new CommonMethodsClass();
-            commonMethods.SetupApi("your_login", "your_password", "your_url_of_rally");
+            CommonMethodsClass commonMethods = new CommonMethodsClass(login, password, rallyServer);
+            commonMethods.SetupApi();
 
             Console.WriteLine("Enter parent ID of your test cases: ");
-            string id = Console.ReadLine();
+            //string id = Console.ReadLine();
 
-            commonMethods.GetAllTestCasesFromFolder(id);
-            commonMethods.SaveTestCasesIntoJson();
+            commonMethods.GetAllTestCasesFromFolder("");
+            //commonMethods.SaveTestCasesIntoJson();
+            commonMethods.SaveTestCasesIntoExcelFile();
         }
     }
 }
