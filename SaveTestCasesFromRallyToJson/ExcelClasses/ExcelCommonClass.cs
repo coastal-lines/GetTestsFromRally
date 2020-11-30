@@ -118,9 +118,9 @@ namespace SaveTestCasesFromRallyToJson.ExcelClasses
             }
         }
 
-        public void SaveExcelFile()
+        public void SaveExcelFile(string testFolderId)
         {
-            workbook.SaveAs("file.xlsx");
+            workbook.SaveAs($"{testFolderId}TestCases.xlsx");
         }
 
         public string FormatText(string text)
