@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace SaveTestCasesFromRallyToJson.CommonMethods
 {
@@ -22,12 +23,16 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
         private string username;
         private string password;
         private string host;
+        private string testFolderId;
+        private TextBox testCasesTextBox;
 
-        public CommonMethodsClass(string username, string password, string host)
+        public CommonMethodsClass(string username, string password, string host, string testFolderId, TextBox testCasesTextBox)
         {
             this.username = username;
             this.password = password;
             this.host = host;
+            this.testFolderId = testFolderId;
+            this.testCasesTextBox = testCasesTextBox;
         }
 
         public void SetupApi()
@@ -41,7 +46,7 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
             ExcelCommonClass excelClass = new ExcelCommonClass();
             excelClass.MakeTemplateTable();
             excelClass.FillCells(tcList);
-            excelClass.SaveExcelFile();
+            excelClass.SaveExcelFile(testFolderId);
         }
 
         public void SaveTestCasesIntoJson()
@@ -65,11 +70,11 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
             Console.WriteLine("Done");
         }
 
-        public void GetAllTestCasesFromFolder(string testfolderId)
+        public void GetAllTestCasesFromFolder(string testFolderId)
         {
             Request request = new Request("TestFolder");
             request.Fetch = new List<string>() { };
-            request.Query = new Query("ObjectID", Query.Operator.Equals, testfolderId);
+            request.Query = new Query("ObjectID", Query.Operator.Equals, testFolderId);
             QueryResult queryResult = api.Query(request);
 
             try
@@ -152,6 +157,9 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
 
             TestCase tc = new TestCase(queryResult.Results.First(), api);
             tcList.Add(tc);
+
+            //print test number in textbox
+            testCasesTextBox.AppendText(tc.TestCaseNumber + "\n");
         }
     }
 }
