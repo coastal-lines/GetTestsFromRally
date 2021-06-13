@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Rally.RestApi;
+using Rally.RestApi.Exceptions;
 using Rally.RestApi.Response;
 using SaveTestCasesFromRallyToJson.Api;
 using SaveTestCasesFromRallyToJson.ExcelClasses;
@@ -70,13 +71,29 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
             Console.WriteLine("Done");
         }
 
-        public void GetAllTestCasesFromFolder(string testFolderId)
+        public void GetRawTestCasesResult(string testFolderId)
         {
             Request request = new Request("TestFolder");
             request.Fetch = new List<string>() { };
             request.Query = new Query("ObjectID", Query.Operator.Equals, testFolderId);
             QueryResult queryResult = api.Query(request);
 
+            if (queryResult.Errors.Count != 0)
+            {
+                var confirmResult = MessageBox.Show("Something wronf with getting result from Rally", "Wrong result", MessageBoxButtons.OK);
+
+                if (confirmResult == DialogResult.OK)
+                {
+                    System.Windows.Forms.Application.Exit();
+                    System.Environment.Exit(0);
+                }
+            }
+
+            GetAllTestCasesFromFolder(testFolderId, queryResult);
+        }
+
+        public void GetAllTestCasesFromFolder(string testFolderId, QueryResult queryResult)
+        {
             try
             {
                 var testscasesObj = queryResult.Results.First()["TestCases"];
@@ -99,7 +116,7 @@ namespace SaveTestCasesFromRallyToJson.CommonMethods
                     var testfolders = GetListOfTestFoldersFromFolder(foldersObj["_ref"]);
                     foreach (var id in testfolders)
                     {
-                        GetAllTestCasesFromFolder(id);
+                        GetRawTestCasesResult(id);
                     }
                 }
             }
