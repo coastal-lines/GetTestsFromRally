@@ -35,12 +35,22 @@ namespace SaveTestCasesFromRallyToJson
 
                 CommonMethodsClass commonMethods = new CommonMethodsClass(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5);
                 commonMethods.SetupApi();
-                commonMethods.GetAllTestCasesFromFolder(textBox4.Text);
+                commonMethods.GetRawTestCasesResult(textBox4.Text);
                 commonMethods.SaveTestCasesIntoExcelFile();
 
                 button1.Enabled = true;
                 textBox5.AppendText("---Done---");
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
